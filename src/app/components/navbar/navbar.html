@@ -1,0 +1,36 @@
+<!-- Navbar -->
+<div class="navbar">
+  <div class="navbar__logo">
+    <img src="assets/logo.png" alt="Logo" />
+  </div>
+
+  <div class="navbar__link-container desktop">
+    <a href="#">Template Driven Form</a>
+    <a href="#">Reactive Form</a>
+  </div>
+
+  <div class="navbar__open-menu">
+    <button class="navbar__menu-button" (click)="toggleMenu()">&#9776;</button>
+  </div>
+</div>
+
+<!-- Menú móvil o tablet -->
+@if (menuOpen()) {
+  <div class="navbar-backdrop" (click)="toggleMenu()"></div>
+
+  <div
+    class="navbar-mobile"
+    [ngClass]="{
+      'slide-down': isMobile(),
+      'slide-right': isTablet()
+    }"
+  >
+    <div class="navbar-mobile__close-button">
+      <button (click)="toggleMenu()">&#10006;</button>
+    </div>
+    <div class="navbar-mobile__link-container">
+      <a href="#" (click)="toggleMenu()">Template Driven Form</a>
+      <a href="#" (click)="toggleMenu()">Reactive Form</a>
+    </div>
+  </div>
+}
