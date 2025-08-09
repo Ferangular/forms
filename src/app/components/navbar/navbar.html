@@ -5,12 +5,15 @@
   </div>
 
   <div class="navbar__link-container desktop">
-    <a href="#">Template Driven Form</a>
-    <a href="#">Reactive Form</a>
+    <a routerLink="template-driven-forms" routerLinkActive="active">Template Driven Form</a>
+    <a routerLink="reactive-forms">Reactive Form</a>
   </div>
 
   <div class="navbar__open-menu">
-    <button class="navbar__menu-button" (click)="toggleMenu()">&#9776;</button>
+    <button class="navbar__menu-button" (click)="toggleMenu()"
+            [attr.aria-expanded]="menuOpen()"
+            aria-controls="mobileMenu"
+    >&#9776;</button>
   </div>
 </div>
 
@@ -29,8 +32,14 @@
       <button (click)="toggleMenu()">&#10006;</button>
     </div>
     <div class="navbar-mobile__link-container">
-      <a href="#" (click)="toggleMenu()">Template Driven Form</a>
-      <a href="#" (click)="toggleMenu()">Reactive Form</a>
+      <!-- Cierra el menú al hacer click -->
+      <a routerLink="template-driven-forms" routerLinkActive="active" (click)="onNavigate()">
+        Template Driven Form
+      </a>
+      <a routerLink="reactive-forms" routerLinkActive="active" (click)="onNavigate()">
+        Reactive Form
+      </a>
     </div>
   </div>
 }
+<ng-content></ng-content>

@@ -1,13 +1,108 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color-10: #000000;
+  --primary-color-10-rgb: 0,0,0;
+  --primary-color-20: #4c4c4f;
+  --primary-color-30: #8a8a8c;
+  --secondary-color-10: #0d79e5;
+  --light-color-10: #ffffff;
+}
+
 *{
   box-sizing: border-box;
+}
+html.no-scroll{
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  /* opcional: compensa el ancho del scrollbar para evitar “jump” */
+  --sbw: 0px;
 }
 
 body{
   margin: 0;
   padding: 0;
-  background-color: antiquewhite;
+  //background-color: antiquewhite;
+  background-color: rgba(var(--primary-color-10-rgb), 0.04);
   line-height: 1.15;
   font-size: 16px;
   font-family: 'Segoe UI, Montserrat, Tahona';
+  padding-right: var(--sbw, 0px);
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+button, a {
+  transition: all ease .3s;
+  cursor: pointer;
+  color: var(--primary-color-20);
+  font-size: 16px;
+
+  &:hover {
+    color:var(--primary-color-10)
+  }
+}
+
+a {
+  text-decoration: none;
+  padding: 16px;
+
+  &.active{
+    color:var(--primary-color-10);
+  }
+}
+
+
+.app-main {
+  display: block;
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 24px;
+  background-color: rgba(var(--primary-color-10-rgb), 0.04);
+
+
+  @media (max-width: 1024px) {
+    padding: 16px;
+  }
+
+
+  @media (max-width: 600px) {
+    padding: 12px;
+  }
+}
+
+
+button.btn{
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.button-btn-primary{
+  background-color: rgba(var(--primary-color-10-rgb),0.8);
+  color: var(--light-color-10);
+
+  &:hover{
+    background-color: var(--primary-color-10);
+  }
+}
+
+.button-btn-secondary{
+  background-color: transparent;
+  color: rgba(var(--primary-color-10-rgb),0.8);
+
+  &:hover{
+    background-color: var(--light-color-10);
+    border-color: var(--primary-color-10);
+    color: var(--primary-color-10);
+  }
+}
+
+.button-btn-tertiary{
+  background-color: transparent;
+border: none;
+
+  &:hover{
+    background-color: rgba(var(--primary-color-10-rgb),0.8);
+  }
 }
