@@ -1,62 +1,169 @@
-<form class="job-form">
+<form class="job-form" #form="ngForm" autocomplete="off" (ngSubmit)="handleSubmit(form)">
   <h2>Job Application Form</h2>
 
+  <!-- First Name -->
   <div class="form-control">
     <label for="first-name">First Name</label>
-    <input type="text" id="first-name" name="firstName" placeholder="First Name" />
+    <input
+      id="first-name"
+      name="firstName"
+      type="text"
+      placeholder="First Name"
+      [(ngModel)]="applicantForm.firstName"
+      #firstName="ngModel"
+      required
+      minlength="2"
+    />
+    @if (firstName.touched && firstName.invalid) {
+      <small>
+        @if (firstName.errors?.['required']) { First name is required. }
+        @if (firstName.errors?.['minlength']) { At least 2 characters. }
+      </small>
+    }
   </div>
 
+  <!-- Last Name -->
   <div class="form-control">
     <label for="last-name">Last Name</label>
-    <input type="text" id="last-name" name="lastName" placeholder="Last Name" />
+    <input
+      id="last-name"
+      name="lastName"
+      type="text"
+      placeholder="Last Name"
+      [(ngModel)]="applicantForm.lastName"
+      #lastName="ngModel"
+      required
+      minlength="2"
+    />
+    @if (lastName.touched && lastName.invalid) {
+      <small>
+        @if (lastName.errors?.['required']) { Last name is required. }
+        @if (lastName.errors?.['minlength']) { At least 2 characters. }
+      </small>
+    }
   </div>
 
+  <!-- Email -->
   <div class="form-control">
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="Email" />
+    <input
+      id="email"
+      name="email"
+      type="email"
+      placeholder="Email"
+      [(ngModel)]="applicantForm.email"
+      #email="ngModel"
+      required
+      email
+    />
+    @if (email.touched && email.invalid) {
+      <small>
+        @if (email.errors?.['required']) { Email is required. }
+        @if (email.errors?.['email']) { Enter a valid email. }
+      </small>
+    }
   </div>
 
+  <!-- Employment status (radio group) -->
   <div class="radio-group">
     <p>What is your current employment status?</p>
 
     <label class="form-radio-control">
-      <input type="radio" name="employmentStatus" value="employed" />
+      <input
+        type="radio"
+        name="employmentStatus"
+        value="employed"
+        [(ngModel)]="applicantForm.employmentStatus"
+        #employmentStatus="ngModel"
+        required
+      />
       Employed
     </label>
 
     <label class="form-radio-control">
-      <input type="radio" name="employmentStatus" value="self-employed" />
+      <input
+        type="radio"
+        name="employmentStatus"
+        value="self-employed"
+        [(ngModel)]="applicantForm.employmentStatus"
+        required
+      />
       Self-employed
     </label>
 
     <label class="form-radio-control">
-      <input type="radio" name="employmentStatus" value="unemployed" />
+      <input
+        type="radio"
+        name="employmentStatus"
+        value="unemployed"
+        [(ngModel)]="applicantForm.employmentStatus"
+        required
+      />
       Unemployed
     </label>
 
     <label class="form-radio-control">
-      <input type="radio" name="employmentStatus" value="student" />
+      <input
+        type="radio"
+        name="employmentStatus"
+        value="student"
+        [(ngModel)]="applicantForm.employmentStatus"
+        required
+      />
       Student
     </label>
+
+    @if (employmentStatus.touched && employmentStatus.invalid) {
+      <small>Please choose an option.</small>
+    }
   </div>
 
+  <!-- Position select -->
   <div class="form-control">
-    <label for="open-positions" >What positions are you applying for?</label>
-    <select id="open-positions">
-      <option value="">Select an  option</option>
-      <option value="Angular developer">Angular developer</option>
-      <option value="PHP Developer">PHP Developer</option>
-      <option value="Java Developer">Java Developer</option>
-      <option value="Python">Python</option>
+    <label for="open-positions">What position are you applying for?</label>
+    <select
+      id="open-positions"
+      name="positionSelected"
+      [(ngModel)]="applicantForm.positionSelected"
+      #positionSelected="ngModel"
+      required
+    >
+      <option value="" disabled>Select an option</option>
+      @for (p of positions; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
     </select>
+    @if (positionSelected.touched && positionSelected.invalid) {
+      <small>Please select a position.</small>
+    }
   </div>
 
+  <!-- Resume link -->
   <div class="form-control">
     <label for="resume-link">Please provide your resume link</label>
-    <input type="text" id="resume-link" placeholder="https://www.example.com"/>
+    <input
+      id="resume-link"
+      name="resumeLink"
+      type="url"
+      placeholder="https://www.example.com"
+      [(ngModel)]="applicantForm.resumeLink"
+      #resumeLink="ngModel"
+      required
+      pattern="https?://.+"
+    />
+    @if (resumeLink.touched && resumeLink.invalid) {
+      <small>
+        @if (resumeLink.errors?.['required']) { Resume link is required. }
+        @if (resumeLink.errors?.['pattern']) { Enter a valid URL (starts with http/https). }
+      </small>
+    }
   </div>
-<div class="form-action">
-  <button class="btn btn-primary">Reset</button>
-  <button class="btn button-btn-secondary">Submit</button>
-</div>
+
+  <!-- Actions -->
+  <div class="form-action">
+    <button type="button" class="btn btn-primary" (click)="onReset(form)">Reset</button>
+    <button type="submit" class="btn button-btn-secondary" [disabled]="form.invalid">Submit</button>
+  </div>
 </form>
+
+<pre>{{ applicantForm | json }}</pre>

@@ -1,3 +1,20 @@
+/* ---- Job form ---- */
+.job-form {
+  width: 100%;
+  max-width: 560px;
+  margin: 0;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--light-color-10);
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+
+  h2 {
+    margin: 0 0 12px;
+    text-align: center;
+    color: var(--primary-color-20);
+  }
+}
+
 form,
 .radio-group {
   display: flex;
@@ -5,52 +22,120 @@ form,
   row-gap: 16px;
 }
 
-form {
+/* ---- Campos ---- */
+.form-control,
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 100%;
-  max-width: 510px;
+}
 
-  h2 {
-    text-align: center;
+label {
+  font-weight: 600;
+  color: var(--primary-color-20);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+select {
+  width: 100%;
+  appearance: none;
+  background: #fff;
+  border: 1.5px solid var(--primary-color-30);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+
+  &::placeholder { color: #9aa0a6; }
+
+  &:focus {
+    border-color: var(--secondary-color-10);
+    box-shadow: 0 0 0 3px rgba(13, 121, 229, .15);
+  }
+
+  /* estado inválido (template-driven) */
+  &.ng-invalid.ng-touched {
+    border-color: var(--danger-color, #d32f2f);
+    box-shadow: 0 0 0 3px rgba(211,47,47,.12);
   }
 }
 
-.form-control {
-  display: flex;
-  flex-direction: column;
-  row-gap: 4px;
-  width: 100%;
-
-  & input[type="text"],
-  select {
-    border: 2px solid;
-    border-color: var(--primary-color-30);
-    border-radius: 8px;
-    padding: 8px 12px;
-    outline: none;
-
-    &:focus {
-      border-color: var(--secondary-color-10);
-    }
-  }
+/* ---- Radios ---- */
+.radio-group > p {
+  margin: 0;
+  font-weight: 600;
+  color: var(--primary-color-20);
 }
 
 .form-radio-control{
   display: flex;
   align-items: center;
-  column-gap: 8px;
-  label{
-    cursor: pointer;
-  }
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .15s ease;
+
+  &:hover { background-color: rgba(0,0,0,.04); }
 
   input[type="radio"]{
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--secondary-color-10); /* color del radio */
+    flex: 0 0 auto;
   }
 }
 
+/* Si el radio requerido no está elegido y fue tocado, marca el título en rojo */
+.radio-group .ng-invalid.ng-touched ~ small,
+small.error {
+  color: var(--danger-color, #d32f2f);
+}
+
+/* ---- Mensajes de error ---- */
+small {
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--primary-color-30);
+}
+
+.ng-invalid.ng-touched + small,
+small[role="alert"] {
+  color: var(--danger-color, #d32f2f);
+}
+
+/* ---- Acciones ---- */
 .form-action{
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  column-gap: 12px;
+  gap: 12px;
+  margin-top: 8px;
+
+  .btn{
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+  }
+
+  .btn[disabled]{
+    opacity: .6;
+    cursor: not-allowed;
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .job-form { padding: 16px; }
+  .form-action {
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    .btn { width: 100%; }
+  }
 }
