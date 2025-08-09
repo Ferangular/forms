@@ -1,4 +1,9 @@
-<form class="job-form" #form="ngForm" autocomplete="off" (ngSubmit)="handleSubmit(form)">
+<form class="job-form"
+      #form="ngForm"
+      [ngFormOptions]="{updateOn: 'blur'}"
+      autocomplete="off" (ngSubmit)="handleSubmit(form)">
+<!--     [ngFormOptions]="{updateOn: 'blur'}"
+modifica el comportamiento del todo el formulario-->
   <h2>Job Application Form</h2>
 
   <!-- First Name -->
@@ -10,10 +15,13 @@
       type="text"
       placeholder="First Name"
       [(ngModel)]="applicantForm.firstName"
+      [ngModelOptions]="{name: 'first-name', updateOn: 'change', standalone: false}"
       #firstName="ngModel"
       required
       minlength="2"
     />
+<!--    Si fuera standalone: true → el control no se registraría en el formulario padre, sería un control independiente. -->
+<!--   updateOn: 'blur' | change | submit -->
     @if (firstName.touched && firstName.invalid) {
       <small>
         @if (firstName.errors?.['required']) { First name is required. }
