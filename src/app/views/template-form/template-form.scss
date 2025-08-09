@@ -1,0 +1,56 @@
+form,
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+form {
+  width: 100%;
+  max-width: 510px;
+
+  h2 {
+    text-align: center;
+  }
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  width: 100%;
+
+  & input[type="text"],
+  select {
+    border: 2px solid;
+    border-color: var(--primary-color-30);
+    border-radius: 8px;
+    padding: 8px 12px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--secondary-color-10);
+    }
+  }
+}
+
+.form-radio-control{
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  label{
+    cursor: pointer;
+  }
+
+  input[type="radio"]{
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.form-action{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 12px;
+}

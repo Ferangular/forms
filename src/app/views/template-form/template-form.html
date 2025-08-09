@@ -1,1 +1,62 @@
-<p>template-form works!</p>
+<form class="job-form">
+  <h2>Job Application Form</h2>
+
+  <div class="form-control">
+    <label for="first-name">First Name</label>
+    <input type="text" id="first-name" name="firstName" placeholder="First Name" />
+  </div>
+
+  <div class="form-control">
+    <label for="last-name">Last Name</label>
+    <input type="text" id="last-name" name="lastName" placeholder="Last Name" />
+  </div>
+
+  <div class="form-control">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Email" />
+  </div>
+
+  <div class="radio-group">
+    <p>What is your current employment status?</p>
+
+    <label class="form-radio-control">
+      <input type="radio" name="employmentStatus" value="employed" />
+      Employed
+    </label>
+
+    <label class="form-radio-control">
+      <input type="radio" name="employmentStatus" value="self-employed" />
+      Self-employed
+    </label>
+
+    <label class="form-radio-control">
+      <input type="radio" name="employmentStatus" value="unemployed" />
+      Unemployed
+    </label>
+
+    <label class="form-radio-control">
+      <input type="radio" name="employmentStatus" value="student" />
+      Student
+    </label>
+  </div>
+
+  <div class="form-control">
+    <label for="open-positions" >What positions are you applying for?</label>
+    <select id="open-positions">
+      <option value="">Select an  option</option>
+      <option value="Angular developer">Angular developer</option>
+      <option value="PHP Developer">PHP Developer</option>
+      <option value="Java Developer">Java Developer</option>
+      <option value="Python">Python</option>
+    </select>
+  </div>
+
+  <div class="form-control">
+    <label for="resume-link">Please provide your resume link</label>
+    <input type="text" id="resume-link" placeholder="https://www.example.com"/>
+  </div>
+<div class="form-action">
+  <button class="btn btn-primary">Reset</button>
+  <button class="btn button-btn-secondary">Submit</button>
+</div>
+</form>
