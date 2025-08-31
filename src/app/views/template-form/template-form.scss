@@ -51,6 +51,10 @@ select {
 
   &::placeholder { color: #9aa0a6; }
 
+  &.ng-valid.ng-dirty {
+    border-color: var(--success-color-10);
+  }
+
   &:focus {
     border-color: var(--secondary-color-10);
     box-shadow: 0 0 0 3px rgba(13, 121, 229, .15);
@@ -91,7 +95,6 @@ select {
 }
 
 /* Si el radio requerido no está elegido y fue tocado, marca el título en rojo */
-.radio-group .ng-invalid.ng-touched ~ small,
 small.error {
   color: var(--danger-color, #d32f2f);
 }

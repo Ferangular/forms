@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
-import {JsonPipe} from '@angular/common';
+
+import {ApplicantForm} from './interfaces/applicant-form';
+import {BannedWordDirective} from './directives/banned-word.directive';
 // import {TemplateFormDirective} from '../../directives/template-form.directive';
 
 @Component({
   selector: 'cs-template-form',
-  imports: [FormsModule, JsonPipe],
+  imports: [FormsModule,  BannedWordDirective],
   templateUrl: './template-form.html',
   styleUrl: './template-form.scss'
 })
@@ -13,9 +15,11 @@ export class TemplateForm {
 
   positions = ['Angular Developer', 'PHP Developer', 'Java Developer', 'Python'];
 
-  applicantForm ={
-    firstName: '',
-    lastName: '',
+  applicantForm: ApplicantForm ={
+    name:{
+      first: '',
+      last: '',
+    },
     email: '',
     employmentStatus: '',
     positionSelected: '',
@@ -28,8 +32,10 @@ export class TemplateForm {
 
   onReset(form: NgForm) {
     form.resetForm({
-      firstName: '',
-      lastName: '',
+name:{
+  first: '',
+  last: '',
+},
       email: '',
       employmentStatus: '',
       positionSelected: '',

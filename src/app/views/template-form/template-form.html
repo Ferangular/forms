@@ -2,54 +2,60 @@
       #form="ngForm"
       [ngFormOptions]="{updateOn: 'blur'}"
       autocomplete="off" (ngSubmit)="handleSubmit(form)">
-<!--     [ngFormOptions]="{updateOn: 'blur'}"
-modifica el comportamiento del todo el formulario-->
+<!--     [ngFormOptions]="{updateOn: 'blur'}"  modifica el comportamiento del todo el formulario-->
   <h2>Job Application Form</h2>
+<div class="form-group">
+    <div class="form-group-box" ngModelGroup="name">
+      <!-- First Name -->
+      <div class="form-control">
+        <label for="first">First</label>
+        <input
+          id="first"
+          name="first"
+          type="text"
+          placeholder="First"
+          [(ngModel)]="applicantForm.name.first"
+          [ngModelOptions]="{name: 'first', updateOn: 'change', standalone: false}"
+          #first="ngModel"
+          required
+          minlength="2"
+        />
+        <!--    Si fuera standalone: true → el control no se registraría en el formulario padre, sería un control independiente. -->
+        <!--   updateOn: 'blur' | change | submit -->
+        @if (first.touched && first.invalid) {
+          <small>
+            @if (first.errors?.['required']) { First name is required. }
+            @if (first.errors?.['minlength']) { At least 2 characters. }
+          </small>
+        }
+      </div>
 
-  <!-- First Name -->
-  <div class="form-control">
-    <label for="first-name">First Name</label>
-    <input
-      id="first-name"
-      name="firstName"
-      type="text"
-      placeholder="First Name"
-      [(ngModel)]="applicantForm.firstName"
-      [ngModelOptions]="{name: 'first-name', updateOn: 'change', standalone: false}"
-      #firstName="ngModel"
-      required
-      minlength="2"
-    />
-<!--    Si fuera standalone: true → el control no se registraría en el formulario padre, sería un control independiente. -->
-<!--   updateOn: 'blur' | change | submit -->
-    @if (firstName.touched && firstName.invalid) {
-      <small>
-        @if (firstName.errors?.['required']) { First name is required. }
-        @if (firstName.errors?.['minlength']) { At least 2 characters. }
-      </small>
-    }
-  </div>
+      <!-- Last Name -->
+      <div class="form-control">
+        <label for="last">Last </label>
+        <input
+          id="last"
+          name="last"
+          type="text"
+          placeholder="Last Name"
+          [(ngModel)]="applicantForm.name.last"
+          #last="ngModel"
+          bannedWord="Doe"
+        />
+        @if (last.touched && last.invalid) {
+          <small>
+            @if (last.errors?.['required']) { Last name is required. }
+            @if (last.errors?.['minlength']) { At least 2 characters. }
+            @if (last.hasError('bannedWordValidator')) {
+              @let banneError = last.getError('bannedWordValidator');
+              Nombre prohibido <strong>{{ banneError.word }}</strong>
+            }
+          </small>
+        }
+      </div>
 
-  <!-- Last Name -->
-  <div class="form-control">
-    <label for="last-name">Last Name</label>
-    <input
-      id="last-name"
-      name="lastName"
-      type="text"
-      placeholder="Last Name"
-      [(ngModel)]="applicantForm.lastName"
-      #lastName="ngModel"
-      required
-      minlength="2"
-    />
-    @if (lastName.touched && lastName.invalid) {
-      <small>
-        @if (lastName.errors?.['required']) { Last name is required. }
-        @if (lastName.errors?.['minlength']) { At least 2 characters. }
-      </small>
-    }
-  </div>
+    </div>
+</div>
 
   <!-- Email -->
   <div class="form-control">
@@ -122,7 +128,7 @@ modifica el comportamiento del todo el formulario-->
     </label>
 
     @if (employmentStatus.touched && employmentStatus.invalid) {
-      <small>Please choose an option.</small>
+      <small class="error">Please choose an option.</small>
     }
   </div>
 
@@ -167,11 +173,11 @@ modifica el comportamiento del todo el formulario-->
     }
   </div>
 
-  <!-- Actions -->
+
   <div class="form-action">
     <button type="button" class="btn btn-primary" (click)="onReset(form)">Reset</button>
     <button type="submit" class="btn button-btn-secondary" [disabled]="form.invalid">Submit</button>
   </div>
 </form>
 
-<pre>{{ applicantForm | json }}</pre>
+<!--<pre>{{ applicantForm | json }}</pre>-->
