@@ -6,5 +6,8 @@ export interface ApplicantForm {
   email: string;
   employmentStatus: string;
   positionSelected: string;
-  resumeLink: string
+  resumeLink: string;
+  phoneNumber: string;
 }
+
+export type VerifyAccount = 'email' | 'phone number';

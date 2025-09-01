@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 
-import {ApplicantForm} from './interfaces/applicant-form';
+import {ApplicantForm, VerifyAccount} from './interfaces/applicant-form';
 import {BannedWordDirective} from './directives/banned-word.directive';
 // import {TemplateFormDirective} from '../../directives/template-form.directive';
 
@@ -13,6 +13,8 @@ import {BannedWordDirective} from './directives/banned-word.directive';
 })
 export class TemplateForm {
 
+  verifyAccountWith: VerifyAccount = 'email';
+
   positions = ['Angular Developer', 'PHP Developer', 'Java Developer', 'Python'];
 
   applicantForm: ApplicantForm ={
@@ -23,7 +25,8 @@ export class TemplateForm {
     email: '',
     employmentStatus: '',
     positionSelected: '',
-    resumeLink: ''
+    resumeLink: '',
+    phoneNumber: ''
   }
 
   handleSubmit(form: NgForm){
@@ -39,7 +42,18 @@ name:{
       email: '',
       employmentStatus: '',
       positionSelected: '',
-      resumeLink: ''
+      resumeLink: '',
+      phoneNumber: ''
     });
+  }
+
+  handleKeypress(event: KeyboardEvent) {
+    if(RegExp(/^\d$/).exec(event.key)){
+      event.preventDefault();
+    }
+  }
+
+  handlePhoneNumber() {
+    this.applicantForm.phoneNumber= '';
   }
 }

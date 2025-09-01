@@ -173,6 +173,64 @@
     }
   </div>
 
+  <div class="radio-group">
+    Verify Account width:
+    <div class="form-radio-control">
+      <input
+        type="radio"
+        name="verify-account"
+        id="verify-email"
+        [(ngModel)]="verifyAccountWith"
+        (ngModelChange)="handlePhoneNumber()"
+        [ngModelOptions]="{standalone: true }"
+        value="email"
+      >
+      <label for="verify-email">Email</label>
+    </div>
+    <div class="form-radio-control">
+      <input
+        type="radio"
+        name="verify-account"
+        [(ngModel)]="verifyAccountWith"
+        (ngModelChange)="handlePhoneNumber()"
+        [ngModelOptions]="{standalone: true }"
+        id="verify-phone-number"
+        value="phone number"
+      >
+      <label for="verify-phone-number">Phone number</label>
+    </div>
+  </div>
+
+  <!-- phone number -->
+  @if(verifyAccountWith === 'phone number'){
+    <div class="form-control">
+      <label for="phone-number">Phone number</label>
+      <input
+        type="text"
+        id="phone-number"
+        name="phone-number"
+        placeholder="phone-number"
+        [(ngModel)]="applicantForm.phoneNumber"
+        minlength="4"
+        pattern="\d"
+        #phoneNumber="ngModel"
+
+      />
+      <!--    (keypress)="handleKeypress($event)"  -->
+      @if (phoneNumber.touched && phoneNumber.invalid) {
+        <small>
+          @if (phoneNumber.errors?.['required']) { this field is required. }
+          @if (phoneNumber.errors?.['pattern']) { this field only accepts numbers). }
+          @if (phoneNumber.hasError('minlength')) {
+            @let minlength = phoneNumber.getError('minlength');
+            The required length for this field is  <strong>{{ minlength }}</strong>
+          }
+        </small>
+      }
+    </div>
+  }
+
+
 
   <div class="form-action">
     <button type="button" class="btn btn-primary" (click)="onReset(form)">Reset</button>
