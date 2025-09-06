@@ -1,16 +1,21 @@
 <form class="job-form"
       #form="ngForm"
       [ngFormOptions]="{updateOn: 'blur'}"
-      autocomplete="off" (ngSubmit)="handleSubmit(form)">
-  <!--     [ngFormOptions]="{updateOn: 'blur'}"  modifica el comportamiento del todo el formulario-->
-  <h2>Job Application Form</h2>
+      autocomplete="off"
+      (ngSubmit)="handleSubmit(form)">
 
-  <div class="form-group">
-    <div class="form-group-box" ngModelGroup="name">
+  <h2 class="job-form__title">Job Application Form</h2>
+
+  <!-- ========== NAME ==========
+       Grupo: name -->
+  <div class="job-form__group">
+    <div class="job-form__group-box" ngModelGroup="name">
+
       <!-- First Name -->
-      <div class="form-control">
-        <label for="first">First</label>
+      <div class="job-form__control">
+        <label class="job-form__label" for="first">First</label>
         <input
+          class="job-form__input"
           id="first"
           name="first"
           type="text"
@@ -21,10 +26,8 @@
           required
           minlength="2"
         />
-        <!--    Si fuera standalone: true → el control no se registraría en el formulario padre, sería un control independiente. -->
-        <!--   updateOn: 'blur' | change | submit -->
         @if (first.touched && first.invalid) {
-          <small>
+          <small class="job-form__helper job-form__helper--error" role="alert">
             @if (first.errors?.['required']) {
               First name is required.
             }
@@ -36,9 +39,10 @@
       </div>
 
       <!-- Last Name -->
-      <div class="form-control">
-        <label for="last">Last </label>
+      <div class="job-form__control">
+        <label class="job-form__label" for="last">Last</label>
         <input
+          class="job-form__input"
           id="last"
           name="last"
           type="text"
@@ -48,7 +52,7 @@
           bannedWord="Doe"
         />
         @if (last.touched && last.invalid) {
-          <small>
+          <small class="job-form__helper job-form__helper--error" role="alert">
             @if (last.errors?.['required']) {
               Last name is required.
             }
@@ -66,20 +70,26 @@
     </div>
   </div>
 
+  <!-- ========== EMAIL ==========
+       Grupo: email + confirmEmail directive -->
+  <div class="job-form__group">
+    <div class="job-form__group-box" ngModelGroup="email" confirmEmail>
 
-  <div class="form-group">
-    <div class="form-group-box" ngModelGroup="email" confirmEmail>
       <!-- Email -->
-      <div class="form-control">
-        <div class="label-row">
-          <label for="email">Email</label>
+      <div class="job-form__control">
+        <div class="job-form__label-row">
+          <label class="job-form__label" for="email">Email</label>
 
-          <!-- INFO en verde, separado del input para que no lo afecten reglas de error -->
+          <!-- Info (verde) separado del input -->
           @if (email.pending) {
-            <span class="status status-success" role="status">Checking this email...</span>
+            <span class="job-form__status job-form__status--success" role="status">
+              Checking this email...
+            </span>
           }
         </div>
+
         <input
+          class="job-form__input"
           id="email"
           name="email"
           type="email"
@@ -90,8 +100,9 @@
           checkEmail
           email
         />
+
         @if (email.touched && email.invalid) {
-          <small>
+          <small class="job-form__helper job-form__helper--error" role="alert">
             @if (email.errors?.['required']) {
               Email is required.
             }
@@ -104,10 +115,12 @@
           </small>
         }
       </div>
-      <!-- confirm-email -->
-      <div class="form-control">
-        <label for="confirm-email">Confirm Email</label>
+
+      <!-- Confirm Email -->
+      <div class="job-form__control">
+        <label class="job-form__label" for="confirm-email">Confirm Email</label>
         <input
+          class="job-form__input"
           id="confirm-email"
           name="confirm-email"
           type="email"
@@ -116,22 +129,25 @@
           #confirmEmailControl="ngModel"
         />
         @if (confirmEmailControl.touched && confirmEmailControl.invalid) {
-          <small>
+          <small class="job-form__helper job-form__helper--error" role="alert">
             @if (confirmEmailControl.errors?.['noMatch']) {
               Email doesn´t match.
             }
           </small>
         }
       </div>
+
     </div>
   </div>
 
+  <!-- ========== EMPLOYMENT STATUS (RADIOS) ========== -->
+  <div class="job-form__radio-group"
+       [class.job-form__radio-group--invalid]="(employmentStatus.touched || form.submitted) && employmentStatus.invalid"
+       [class.job-form__radio-group--valid]="(employmentStatus.touched || form.submitted) && employmentStatus.valid">
 
-  <!-- Employment status (radio group) -->
-  <div class="radio-group">
-    <p>What is your current employment status?</p>
+    <p class="job-form__radio-legend">What is your current employment status?</p>
 
-    <label class="form-radio-control">
+    <label class="job-form__radio-option">
       <input
         type="radio"
         name="employmentStatus"
@@ -143,7 +159,7 @@
       Employed
     </label>
 
-    <label class="form-radio-control">
+    <label class="job-form__radio-option">
       <input
         type="radio"
         name="employmentStatus"
@@ -154,7 +170,7 @@
       Self-employed
     </label>
 
-    <label class="form-radio-control">
+    <label class="job-form__radio-option">
       <input
         type="radio"
         name="employmentStatus"
@@ -165,7 +181,7 @@
       Unemployed
     </label>
 
-    <label class="form-radio-control">
+    <label class="job-form__radio-option">
       <input
         type="radio"
         name="employmentStatus"
@@ -177,14 +193,17 @@
     </label>
 
     @if (employmentStatus.touched && employmentStatus.invalid) {
-      <small class="error">Please choose an option.</small>
+      <small class="job-form__helper job-form__helper--error" role="alert">
+        Please choose an option.
+      </small>
     }
   </div>
 
-  <!-- Position select -->
-  <div class="form-control">
-    <label for="open-positions">What position are you applying for?</label>
+  <!-- ========== POSITION (SELECT) ========== -->
+  <div class="job-form__control">
+    <label class="job-form__label" for="open-positions">What position are you applying for?</label>
     <select
+      class="job-form__input"
       id="open-positions"
       name="positionSelected"
       [(ngModel)]="applicantForm.positionSelected"
@@ -197,14 +216,17 @@
       }
     </select>
     @if (positionSelected.touched && positionSelected.invalid) {
-      <small>Please select a position.</small>
+      <small class="job-form__helper job-form__helper--error" role="alert">
+        Please select a position.
+      </small>
     }
   </div>
 
-  <!-- Resume link -->
-  <div class="form-control">
-    <label for="resume-link">Please provide your resume link</label>
+  <!-- ========== RESUME LINK ========== -->
+  <div class="job-form__control">
+    <label class="job-form__label" for="resume-link">Please provide your resume link</label>
     <input
+      class="job-form__input"
       id="resume-link"
       name="resumeLink"
       type="url"
@@ -215,7 +237,7 @@
       pattern="https?://.+"
     />
     @if (resumeLink.touched && resumeLink.invalid) {
-      <small>
+      <small class="job-form__helper job-form__helper--error" role="alert">
         @if (resumeLink.errors?.['required']) {
           Resume link is required.
         }
@@ -226,9 +248,11 @@
     }
   </div>
 
-  <div class="radio-group">
-    Verify Account width:
-    <div class="form-radio-control">
+  <!-- ========== VERIFY ACCOUNT (RADIOS) ========== -->
+  <div class="job-form__radio-group">
+    <p class="job-form__radio-legend">Verify Account with:</p>
+
+    <label class="job-form__radio-option" for="verify-email">
       <input
         type="radio"
         name="verify-account"
@@ -237,28 +261,30 @@
         (ngModelChange)="handlePhoneNumber()"
         [ngModelOptions]="{standalone: true }"
         value="email"
-      >
-      <label for="verify-email">Email</label>
-    </div>
-    <div class="form-radio-control">
+      />
+      Email
+    </label>
+
+    <label class="job-form__radio-option" for="verify-phone-number">
       <input
         type="radio"
         name="verify-account"
+        id="verify-phone-number"
         [(ngModel)]="verifyAccountWith"
         (ngModelChange)="handlePhoneNumber()"
         [ngModelOptions]="{standalone: true }"
-        id="verify-phone-number"
         value="phone number"
-      >
-      <label for="verify-phone-number">Phone number</label>
-    </div>
+      />
+      Phone number
+    </label>
   </div>
 
-  <!-- phone number -->
+  <!-- Phone number (condicional) -->
   @if (verifyAccountWith === 'phone number') {
-    <div class="form-control">
-      <label for="phone-number">Phone number</label>
+    <div class="job-form__control">
+      <label class="job-form__label" for="phone-number">Phone number</label>
       <input
+        class="job-form__input"
         type="text"
         id="phone-number"
         name="phone-number"
@@ -268,30 +294,26 @@
         pattern="\d"
         #phoneNumber="ngModel"
       />
-      <!--    (keypress)="handleKeypress($event)"  -->
       @if (phoneNumber.touched && phoneNumber.invalid) {
-        <small>
+        <small class="job-form__helper job-form__helper--error" role="alert">
           @if (phoneNumber.errors?.['required']) {
-            this field is required.
+            This field is required.
           }
           @if (phoneNumber.errors?.['pattern']) {
-            this field only accepts numbers).
+            This field only accepts numbers.
           }
           @if (phoneNumber.hasError('minlength')) {
             @let minlength = phoneNumber.getError('minlength');
-            The required length for this field is  <strong>{{ minlength }}</strong>
+            The required length for this field is <strong>{{ minlength }}</strong>
           }
         </small>
       }
     </div>
   }
 
-
-
-  <div class="form-action">
-    <button type="button" class="btn btn-primary" (click)="onReset(form)">Reset</button>
-    <button type="submit" class="btn button-btn-secondary" [disabled]="form.invalid">Submit</button>
+  <!-- ========== ACTIONS ========== -->
+  <div class="job-form__actions">
+    <button type="button" class="job-form__btn" (click)="onReset(form)">Reset</button>
+    <button type="submit" class="job-form__btn" [disabled]="form.invalid">Submit</button>
   </div>
 </form>
-
-<!--<pre>{{ applicantForm | json }}</pre>-->
