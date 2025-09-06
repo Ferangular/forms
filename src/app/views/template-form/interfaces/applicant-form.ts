@@ -3,7 +3,10 @@ export interface ApplicantForm {
     first: string;
     last: string;
   };
-  email: string;
+  email: {
+    email: string;
+    confirmEmail: string;
+  },
   employmentStatus: string;
   positionSelected: string;
   resumeLink: string;

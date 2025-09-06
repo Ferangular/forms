@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 
 import {ApplicantForm, VerifyAccount} from './interfaces/applicant-form';
 import {BannedWordDirective} from './directives/banned-word.directive';
+import {ConfirmEmailValidator} from './directives/confirm-email-validator.directive';
+
 // import {TemplateFormDirective} from '../../directives/template-form.directive';
 
 @Component({
   selector: 'cs-template-form',
-  imports: [FormsModule,  BannedWordDirective],
+  imports: [FormsModule, BannedWordDirective, ConfirmEmailValidator],
   templateUrl: './template-form.html',
   styleUrl: './template-form.scss'
 })
@@ -17,29 +19,36 @@ export class TemplateForm {
 
   positions = ['Angular Developer', 'PHP Developer', 'Java Developer', 'Python'];
 
-  applicantForm: ApplicantForm ={
-    name:{
+  applicantForm: ApplicantForm = {
+    name: {
       first: '',
       last: '',
     },
-    email: '',
+    email: {
+      email: '',
+      confirmEmail: '',
+    },
     employmentStatus: '',
     positionSelected: '',
     resumeLink: '',
     phoneNumber: ''
   }
 
-  handleSubmit(form: NgForm){
+  handleSubmit(form: NgForm) {
     console.log(form)
   }
 
   onReset(form: NgForm) {
     form.resetForm({
-name:{
-  first: '',
-  last: '',
-},
-      email: '',
+      name: {
+        first: '',
+        last: '',
+      },
+      email: {
+        email: '',
+        confirmEmail: '',
+      },
+
       employmentStatus: '',
       positionSelected: '',
       resumeLink: '',
@@ -48,12 +57,12 @@ name:{
   }
 
   handleKeypress(event: KeyboardEvent) {
-    if(RegExp(/^\d$/).exec(event.key)){
+    if (RegExp(/^\d$/).exec(event.key)) {
       event.preventDefault();
     }
   }
 
   handlePhoneNumber() {
-    this.applicantForm.phoneNumber= '';
+    this.applicantForm.phoneNumber = '';
   }
 }

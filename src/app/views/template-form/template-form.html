@@ -2,9 +2,10 @@
       #form="ngForm"
       [ngFormOptions]="{updateOn: 'blur'}"
       autocomplete="off" (ngSubmit)="handleSubmit(form)">
-<!--     [ngFormOptions]="{updateOn: 'blur'}"  modifica el comportamiento del todo el formulario-->
+  <!--     [ngFormOptions]="{updateOn: 'blur'}"  modifica el comportamiento del todo el formulario-->
   <h2>Job Application Form</h2>
-<div class="form-group">
+
+  <div class="form-group">
     <div class="form-group-box" ngModelGroup="name">
       <!-- First Name -->
       <div class="form-control">
@@ -24,8 +25,12 @@
         <!--   updateOn: 'blur' | change | submit -->
         @if (first.touched && first.invalid) {
           <small>
-            @if (first.errors?.['required']) { First name is required. }
-            @if (first.errors?.['minlength']) { At least 2 characters. }
+            @if (first.errors?.['required']) {
+              First name is required.
+            }
+            @if (first.errors?.['minlength']) {
+              At least 2 characters.
+            }
           </small>
         }
       </div>
@@ -44,8 +49,12 @@
         />
         @if (last.touched && last.invalid) {
           <small>
-            @if (last.errors?.['required']) { Last name is required. }
-            @if (last.errors?.['minlength']) { At least 2 characters. }
+            @if (last.errors?.['required']) {
+              Last name is required.
+            }
+            @if (last.errors?.['minlength']) {
+              At least 2 characters.
+            }
             @if (last.hasError('bannedWordValidator')) {
               @let banneError = last.getError('bannedWordValidator');
               Nombre prohibido <strong>{{ banneError.word }}</strong>
@@ -55,28 +64,59 @@
       </div>
 
     </div>
-</div>
-
-  <!-- Email -->
-  <div class="form-control">
-    <label for="email">Email</label>
-    <input
-      id="email"
-      name="email"
-      type="email"
-      placeholder="Email"
-      [(ngModel)]="applicantForm.email"
-      #email="ngModel"
-      required
-      email
-    />
-    @if (email.touched && email.invalid) {
-      <small>
-        @if (email.errors?.['required']) { Email is required. }
-        @if (email.errors?.['email']) { Enter a valid email. }
-      </small>
-    }
   </div>
+
+
+  <div class="form-group">
+     <div class="form-group-box" ngModelGroup="email" confirmEmail>
+       <!-- Email -->
+       <div class="form-control">
+         <label for="email">Email</label>
+         <input
+           id="email"
+           name="email"
+           type="email"
+           placeholder="Email"
+           [(ngModel)]="applicantForm.email.email"
+           #email="ngModel"
+           required
+           email
+         />
+         @if (email.touched && email.invalid) {
+           <small>
+             @if (email.errors?.['required']) {
+               Email is required.
+             }
+             @if (email.errors?.['email']) {
+               Enter a valid email.
+             }
+           </small>
+         }
+       </div>
+       <!-- confirm-email -->
+       <div class="form-control">
+         <label for="confirm-email">Confirm Email</label>
+         <input
+           id="confirm-email"
+           name="confirm-email"
+           type="email"
+           placeholder="confirm-email"
+           [(ngModel)]="applicantForm.email.confirmEmail"
+           #confirmEmailControl="ngModel"
+         />
+         @if (confirmEmailControl.touched && confirmEmailControl.invalid) {
+           <small>
+             @if (confirmEmailControl.errors?.['noMatch']) {
+               Email doesn´t match.
+             }
+           </small>
+         }
+       </div>
+     </div>
+  </div>
+
+
+
 
   <!-- Employment status (radio group) -->
   <div class="radio-group">
@@ -167,8 +207,12 @@
     />
     @if (resumeLink.touched && resumeLink.invalid) {
       <small>
-        @if (resumeLink.errors?.['required']) { Resume link is required. }
-        @if (resumeLink.errors?.['pattern']) { Enter a valid URL (starts with http/https). }
+        @if (resumeLink.errors?.['required']) {
+          Resume link is required.
+        }
+        @if (resumeLink.errors?.['pattern']) {
+          Enter a valid URL (starts with http/https).
+        }
       </small>
     }
   </div>
@@ -202,7 +246,7 @@
   </div>
 
   <!-- phone number -->
-  @if(verifyAccountWith === 'phone number'){
+  @if (verifyAccountWith === 'phone number') {
     <div class="form-control">
       <label for="phone-number">Phone number</label>
       <input
@@ -214,13 +258,16 @@
         minlength="4"
         pattern="\d"
         #phoneNumber="ngModel"
-
       />
       <!--    (keypress)="handleKeypress($event)"  -->
       @if (phoneNumber.touched && phoneNumber.invalid) {
         <small>
-          @if (phoneNumber.errors?.['required']) { this field is required. }
-          @if (phoneNumber.errors?.['pattern']) { this field only accepts numbers). }
+          @if (phoneNumber.errors?.['required']) {
+            this field is required.
+          }
+          @if (phoneNumber.errors?.['pattern']) {
+            this field only accepts numbers).
+          }
           @if (phoneNumber.hasError('minlength')) {
             @let minlength = phoneNumber.getError('minlength');
             The required length for this field is  <strong>{{ minlength }}</strong>
