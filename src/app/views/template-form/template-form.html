@@ -142,8 +142,8 @@
 
   <!-- ========== EMPLOYMENT STATUS (RADIOS) ========== -->
   <div class="job-form__radio-group"
-       [class.job-form__radio-group--invalid]="(employmentStatus.touched || form.submitted) && employmentStatus.invalid"
-       [class.job-form__radio-group--valid]="(employmentStatus.touched || form.submitted) && employmentStatus.valid">
+       [class.job-form__radio-group--invalid]="(employmentStatus.dirty || form.submitted) && employmentStatus.invalid"
+       [class.job-form__radio-group--valid]="(employmentStatus.dirty || form.submitted) && employmentStatus.valid">
 
     <p class="job-form__radio-legend">What is your current employment status?</p>
 
