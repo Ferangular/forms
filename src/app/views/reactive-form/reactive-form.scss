@@ -1,0 +1,169 @@
+/* ===== Block ===== */
+.job-form {
+  width: 100%;
+  max-width: 560px;
+  margin: 0;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--light-color-10);
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+
+  /* ===== Elements ===== */
+  &__title {
+    margin: 0 0 12px;
+    text-align: center;
+    color: var(--primary-color-20);
+  }
+
+  &__group,
+  &__radio-group {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  &__group-box { /* .... */ }
+
+  &__control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  &__label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__label {
+    font-weight: 600;
+    margin-top: 1rem;
+    color: var(--primary-color-20);
+  }
+
+  &__input {
+    width: 100%;
+    appearance: none;
+    background: #fff;
+    border: 1.5px solid var(--primary-color-30);
+    border-radius: 10px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+
+    &::placeholder { color: #9aa0a6; }
+
+    /* válido (Angular) */
+    &.ng-valid.ng-dirty { border-color: var(--success-color-10); }
+
+    &:focus {
+      border-color: var(--secondary-color-10);
+      box-shadow: 0 0 0 3px rgba(13,121,229,.15);
+    }
+
+    /* inválido (Angular) */
+    &.ng-invalid.ng-touched {
+      border-color: var(--danger-color, #d32f2f);
+      box-shadow: 0 0 0 3px rgba(211,47,47,.12);
+    }
+  }
+
+  /* Radios */
+  &__radio-legend {
+    margin: 0;
+    font-weight: 600;
+    color: var(--primary-color-20);
+  }
+
+  &__radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .15s ease;
+
+    &:hover { background-color: rgba(0,0,0,.04); }
+
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--secondary-color-10);
+      flex: 0 0 auto;
+    }
+  }
+
+  /* Helpers / mensajes */
+  &__helper {
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--primary-color-30);
+
+    &[role="alert"] { color: var(--danger-color, #d32f2f); }
+  }
+
+  &__helper--error {
+    color: var(--danger-color, #d32f2f);
+  }
+
+  /* Estado informativo (checking) */
+  &__status { font-size: 12px; }
+  &__status--success { color: var(--success-color-10, #2e7d32); }
+
+  /* Actions */
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  &__btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+
+    &:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+  }
+
+  /* ===== Modifiers ===== */
+  &__radio-group--invalid {
+    .job-form__radio-option { color: var(--danger-color, #d32f2f); }
+    .job-form__radio-legend { color: var(--danger-color, #d32f2f); }
+    input[type="radio"] { accent-color: var(--danger-color, #d32f2f); }
+  }
+
+  &__radio-group--valid {
+    .job-form__radio-option { color: var(--success-color-10, #2e7d32); }
+    .job-form__radio-legend { color: var(--success-color-10, #2e7d32); }
+    input[type="radio"] { accent-color: var(--success-color-10, #2e7d32); }
+  }
+
+  /* (Si tenías esta regla global, elimínala o mantenla fuera para no pisar BEM)
+     .ng-invalid.ng-touched + small { color: var(--danger-color, #d32f2f); }
+  */
+
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
+    padding: 16px;
+
+    .job-form__actions {
+      flex-direction: column-reverse;
+      align-items: stretch;
+
+      .job-form__btn { width: 100%; }
+    }
+  }
+}

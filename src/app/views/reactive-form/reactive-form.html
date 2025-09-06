@@ -1,1 +1,269 @@
-<p>reactive-form works!</p>
+<form class="job-form"
+      [formGroup]="jobForm"
+      autocomplete="off"
+      (ngSubmit)="onSubmit()"
+      novalidate>
+
+  <h2 class="job-form__title">Job Application Form</h2>
+
+  <!-- ========== NAME ========== -->
+  <div class="job-form__group">
+    <div class="job-form__group-box" formGroupName="name">
+
+      <!-- First Name -->
+      <div class="job-form__control">
+        <label class="job-form__label" for="first">First</label>
+        <input
+          class="job-form__input"
+          id="first"
+          type="text"
+          placeholder="First"
+          formControlName="first"
+        />
+        @if (firstCtrl?.touched && firstCtrl?.invalid) {
+          <small class="job-form__helper job-form__helper--error" role="alert">
+            @if (firstCtrl?.errors?.['required']) { First name is required. }
+            @if (firstCtrl?.errors?.['minlength']) { At least 2 characters. }
+          </small>
+        }
+      </div>
+
+      <!-- Last Name -->
+      <div class="job-form__control">
+        <label class="job-form__label" for="last">Last</label>
+        <input
+          class="job-form__input"
+          id="last"
+          type="text"
+          placeholder="Last Name"
+          formControlName="last"
+        />
+        @if (lastCtrl?.touched && lastCtrl?.invalid) {
+          <small class="job-form__helper job-form__helper--error" role="alert">
+            @if (lastCtrl?.errors?.['required']) { Last name is required. }
+            @if (lastCtrl?.errors?.['minlength']) { At least 2 characters. }
+            @if (lastCtrl?.errors?.['bannedWordValidator']) {
+              @let err = lastCtrl?.errors?.['bannedWordValidator'];
+              Nombre prohibido <strong>{{ err.word }}</strong>
+            }
+          </small>
+        }
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== EMAIL ========== -->
+  <div class="job-form__group">
+    <div class="job-form__group-box" formGroupName="email">
+
+      <div class="job-form__control">
+        <div class="job-form__label-row">
+          <label class="job-form__label" for="email">Email</label>
+
+          <!-- Estado asíncrono (verde) -->
+          @if (emailCtrl?.pending) {
+            <span class="job-form__status job-form__status--success" role="status">
+              Checking this email...
+            </span>
+          }
+        </div>
+
+        <input
+          class="job-form__input"
+          id="email"
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+        />
+
+        @if (emailCtrl?.touched && emailCtrl?.invalid) {
+          <small class="job-form__helper job-form__helper--error" role="alert">
+            @if (emailCtrl?.errors?.['required']) { Email is required. }
+            @if (emailCtrl?.errors?.['email']) { Enter a valid email. }
+            @if (emailCtrl?.errors?.['isAnExistingEmail']) { This email is already taken. }
+          </small>
+        }
+      </div>
+
+      <!-- Confirm Email (error a nivel de grupo) -->
+      <div class="job-form__control">
+        <label class="job-form__label" for="confirm-email">Confirm Email</label>
+        <input
+          class="job-form__input"
+          id="confirm-email"
+          type="email"
+          placeholder="confirm-email"
+          formControlName="confirmEmail"
+        />
+<!--        @if ((confirmEmailCtrl?.touched || emailCtrl?.touched || submitted) && emailGroup?.hasError('noMatch')) {-->
+<!--          <small class="job-form__helper job-form__helper&#45;&#45;error" role="alert">-->
+<!--            Email doesn´t match.-->
+<!--          </small>-->
+<!--        }-->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== EMPLOYMENT STATUS (RADIOS) ========== -->
+  <div class="job-form__radio-group"
+       [class.job-form__radio-group--invalid]="(employmentStatusCtrl?.touched || submitted) && employmentStatusCtrl?.invalid"
+       [class.job-form__radio-group--valid]="(employmentStatusCtrl?.touched || submitted) && employmentStatusCtrl?.valid">
+
+    <p class="job-form__radio-legend">What is your current employment status?</p>
+
+    <label class="job-form__radio-option">
+      <input type="radio" formControlName="employmentStatus" value="employed" />
+      Employed
+    </label>
+
+    <label class="job-form__radio-option">
+      <input type="radio" formControlName="employmentStatus" value="self-employed" />
+      Self-employed
+    </label>
+
+    <label class="job-form__radio-option">
+      <input type="radio" formControlName="employmentStatus" value="unemployed" />
+      Unemployed
+    </label>
+
+    <label class="job-form__radio-option">
+      <input type="radio" formControlName="employmentStatus" value="student" />
+      Student
+    </label>
+
+    @if (employmentStatusCtrl?.touched && employmentStatusCtrl?.invalid) {
+      <small class="job-form__helper job-form__helper--error" role="alert">
+        Please choose an option.
+      </small>
+    }
+  </div>
+
+  <!-- ========== POSITION (SELECT) ========== -->
+  <div class="job-form__control">
+    <label class="job-form__label" for="open-positions">What position are you applying for?</label>
+    <select
+      class="job-form__input"
+      id="open-positions"
+      formControlName="positionSelected">
+      <option value="" disabled>Select an option</option>
+      @for (p of positions; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select>
+    @if (positionSelectedCtrl?.touched && positionSelectedCtrl?.invalid) {
+      <small class="job-form__helper job-form__helper--error" role="alert">
+        Please select a position.
+      </small>
+    }
+  </div>
+
+  <!-- ========== RESUME LINK ========== -->
+  <div class="job-form__control">
+    <label class="job-form__label" for="resume-link">Please provide your resume link</label>
+    <input
+      class="job-form__input"
+      id="resume-link"
+      type="url"
+      placeholder="https://www.example.com"
+      formControlName="resumeLink"
+    />
+    @if (resumeLinkCtrl?.touched && resumeLinkCtrl?.invalid) {
+      <small class="job-form__helper job-form__helper--error" role="alert">
+        @if (resumeLinkCtrl?.errors?.['required']) { Resume link is required. }
+        @if (resumeLinkCtrl?.errors?.['pattern']) { Enter a valid URL (starts with http/https). }
+      </small>
+    }
+  </div>
+
+  <!-- ===== REFERENCES (FormArray) ===== -->
+  <div class="job-form__group">
+    <div class="job-form__label-row">
+      <span class="job-form__label">References</span>
+      <button type="button" class="job-form__btn" (click)="addReference()">+ Add</button>
+    </div>
+
+    <div formArrayName="references">
+      @for (ref of referencesFA.controls;track ref; let i = $index) {
+        <div class="job-form__group-box" [formGroupName]="i">
+          <div class="job-form__control">
+            <label class="job-form__label">Name</label>
+            <input class="job-form__input" type="text" formControlName="name" />
+          </div>
+          <div class="job-form__control">
+            <label class="job-form__label">Contact</label>
+            <input class="job-form__input" type="text" formControlName="contact" />
+          </div>
+          <button type="button" class="job-form__btn" (click)="removeReference(i)">Remove</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- ===== SKILLS (FormRecord-like) ===== -->
+  <div class="job-form__group">
+    <span class="job-form__label">Skills</span>
+    <div class="job-form__group-box">
+      @for (key of (skillsRecord.controls | keyvalue); track key.key) {
+        <label class="job-form__radio-option">
+          <input type="checkbox" [formControl]="key.value" />
+          {{ key.key | titlecase }}
+        </label>
+      }
+    </div>
+  </div>
+
+  <!-- ========== VERIFY ACCOUNT (RADIOS) ========== -->
+  <div class="job-form__radio-group">
+    <p class="job-form__radio-legend">Verify Account with:</p>
+
+    <label class="job-form__radio-option" for="verify-email">
+      <input
+        type="radio"
+        id="verify-email"
+        formControlName="verifyAccountWith"
+        value="email" />
+      Email
+    </label>
+
+    <label class="job-form__radio-option" for="verify-phone-number">
+      <input
+        type="radio"
+        id="verify-phone-number"
+        formControlName="verifyAccountWith"
+        value="phone number" />
+      Phone number
+    </label>
+  </div>
+
+  <!-- Phone number (condicional) -->
+  @if (verifyAccountWithCtrl?.value === 'phone number') {
+    <div class="job-form__control">
+      <label class="job-form__label" for="phone-number">Phone number</label>
+      <input
+        class="job-form__input"
+        type="text"
+        id="phone-number"
+        placeholder="phone-number"
+        formControlName="phoneNumber"
+      />
+      @if (phoneNumberCtrl?.touched && phoneNumberCtrl?.invalid) {
+        <small class="job-form__helper job-form__helper--error" role="alert">
+          @if (phoneNumberCtrl?.errors?.['required']) { This field is required. }
+          @if (phoneNumberCtrl?.errors?.['pattern']) { This field only accepts numbers. }
+          @if (phoneNumberCtrl?.errors?.['minlength']) {
+            The required length for this field is
+            <strong>{{ phoneNumberCtrl?.errors?.['minlength']?.requiredLength }}</strong>
+          }
+        </small>
+      }
+    </div>
+  }
+
+  <!-- ========== ACTIONS ========== -->
+  <div class="job-form__actions">
+    <button type="button" class="job-form__btn" (click)="onReset()">Reset</button>
+    <button type="submit" class="job-form__btn" [disabled]="jobForm.invalid">Submit</button>
+  </div>
+</form>
