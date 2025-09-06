@@ -4,12 +4,13 @@ import {FormsModule, NgForm} from '@angular/forms';
 import {ApplicantForm, VerifyAccount} from './interfaces/applicant-form';
 import {BannedWordDirective} from './directives/banned-word.directive';
 import {ConfirmEmailValidator} from './directives/confirm-email-validator.directive';
+import {CheckEmailAsyncValidator} from './directives/check-email-async-validator.directive';
 
 // import {TemplateFormDirective} from '../../directives/template-form.directive';
 
 @Component({
   selector: 'cs-template-form',
-  imports: [FormsModule, BannedWordDirective, ConfirmEmailValidator],
+  imports: [FormsModule, BannedWordDirective, ConfirmEmailValidator, CheckEmailAsyncValidator],
   templateUrl: './template-form.html',
   styleUrl: './template-form.scss'
 })

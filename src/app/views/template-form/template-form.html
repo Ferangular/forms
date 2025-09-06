@@ -68,54 +68,63 @@
 
 
   <div class="form-group">
-     <div class="form-group-box" ngModelGroup="email" confirmEmail>
-       <!-- Email -->
-       <div class="form-control">
-         <label for="email">Email</label>
-         <input
-           id="email"
-           name="email"
-           type="email"
-           placeholder="Email"
-           [(ngModel)]="applicantForm.email.email"
-           #email="ngModel"
-           required
-           email
-         />
-         @if (email.touched && email.invalid) {
-           <small>
-             @if (email.errors?.['required']) {
-               Email is required.
-             }
-             @if (email.errors?.['email']) {
-               Enter a valid email.
-             }
-           </small>
-         }
-       </div>
-       <!-- confirm-email -->
-       <div class="form-control">
-         <label for="confirm-email">Confirm Email</label>
-         <input
-           id="confirm-email"
-           name="confirm-email"
-           type="email"
-           placeholder="confirm-email"
-           [(ngModel)]="applicantForm.email.confirmEmail"
-           #confirmEmailControl="ngModel"
-         />
-         @if (confirmEmailControl.touched && confirmEmailControl.invalid) {
-           <small>
-             @if (confirmEmailControl.errors?.['noMatch']) {
-               Email doesn´t match.
-             }
-           </small>
-         }
-       </div>
-     </div>
+    <div class="form-group-box" ngModelGroup="email" confirmEmail>
+      <!-- Email -->
+      <div class="form-control">
+        <div class="label-row">
+          <label for="email">Email</label>
+
+          <!-- INFO en verde, separado del input para que no lo afecten reglas de error -->
+          @if (email.pending) {
+            <span class="status status-success" role="status">Checking this email...</span>
+          }
+        </div>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="applicantForm.email.email"
+          #email="ngModel"
+          required
+          checkEmail
+          email
+        />
+        @if (email.touched && email.invalid) {
+          <small>
+            @if (email.errors?.['required']) {
+              Email is required.
+            }
+            @if (email.errors?.['email']) {
+              Enter a valid email.
+            }
+            @if (email.errors?.['isAnExistingEmail']) {
+              This email is already taken.
+            }
+          </small>
+        }
+      </div>
+      <!-- confirm-email -->
+      <div class="form-control">
+        <label for="confirm-email">Confirm Email</label>
+        <input
+          id="confirm-email"
+          name="confirm-email"
+          type="email"
+          placeholder="confirm-email"
+          [(ngModel)]="applicantForm.email.confirmEmail"
+          #confirmEmailControl="ngModel"
+        />
+        @if (confirmEmailControl.touched && confirmEmailControl.invalid) {
+          <small>
+            @if (confirmEmailControl.errors?.['noMatch']) {
+              Email doesn´t match.
+            }
+          </small>
+        }
+      </div>
+    </div>
   </div>
-
-
 
 
   <!-- Employment status (radio group) -->
