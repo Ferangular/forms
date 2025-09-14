@@ -1,0 +1,21 @@
+:host{
+  --sr-size: 28px;
+  --sr-empty: #c7cbd4;   /* gris vacío */
+  --sr-filled: #111;     /* llenas */
+  --sr-hover: #f6b301;   /* amarillo hover */
+}
+
+.sr { display:inline-flex; gap:.35rem; line-height:1; user-select:none; }
+
+.star{
+  font-size: var(--sr-size);
+  color: var(--sr-empty);
+  cursor: pointer;
+  transition: color .15s ease, transform .08s ease;
+  line-height: 1;
+  display: inline-block;
+}
+
+.star.filled { color: var(--sr-filled); }
+.star.hovered { color: var(--sr-hover); }
+.star:hover { transform: translateY(-1px) scale(1.05); }

@@ -20,10 +20,10 @@
           placeholder="First"
           formControlName="first"
         />
-        @if (firstCtrl?.touched && firstCtrl?.invalid) {
+        @if (firstCtrl.touched && firstCtrl.invalid) {
           <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (firstCtrl?.errors?.['required']) { First name is required. }
-            @if (firstCtrl?.errors?.['minlength']) { At least 2 characters. }
+            @if (firstCtrl.errors?.['required']) { First name is required. }
+            @if (firstCtrl.errors?.['minlength']) { At least 2 characters. }
           </small>
         }
       </div>
@@ -38,12 +38,12 @@
           placeholder="Last Name"
           formControlName="last"
         />
-        @if (lastCtrl?.touched && lastCtrl?.invalid) {
+        @if (lastCtrl.touched && lastCtrl.invalid) {
           <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (lastCtrl?.errors?.['required']) { Last name is required. }
-            @if (lastCtrl?.errors?.['minlength']) { At least 2 characters. }
-            @if (lastCtrl?.errors?.['bannedWordValidator']) {
-              @let err = lastCtrl?.errors?.['bannedWordValidator'];
+            @if (lastCtrl.errors?.['required']) { Last name is required. }
+            @if (lastCtrl.errors?.['minlength']) { At least 2 characters. }
+            @if (lastCtrl.errors?.['bannedWordValidator']) {
+              @let err = lastCtrl.errors?.['bannedWordValidator'];
               Nombre prohibido <strong>{{ err.word }}</strong>
             }
           </small>
@@ -62,7 +62,7 @@
           <label class="job-form__label" for="email">Email</label>
 
           <!-- Estado asíncrono (verde) -->
-          @if (emailCtrl?.pending) {
+          @if (emailCtrl.pending) {
             <span class="job-form__status job-form__status--success" role="status">
               Checking this email...
             </span>
@@ -77,11 +77,11 @@
           formControlName="email"
         />
 
-        @if (emailCtrl?.touched && emailCtrl?.invalid) {
+        @if (emailCtrl.touched && emailCtrl.invalid) {
           <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (emailCtrl?.errors?.['required']) { Email is required. }
-            @if (emailCtrl?.errors?.['email']) { Enter a valid email. }
-            @if (emailCtrl?.errors?.['isAnExistingEmail']) { This email is already taken. }
+            @if (emailCtrl.errors?.['required']) { Email is required. }
+            @if (emailCtrl.errors?.['email']) { Enter a valid email. }
+            @if (emailCtrl.errors?.['isAnExistingEmail']) { This email is already taken. }
           </small>
         }
       </div>
@@ -108,8 +108,8 @@
 
   <!-- ========== EMPLOYMENT STATUS (RADIOS) ========== -->
   <div class="job-form__radio-group"
-       [class.job-form__radio-group--invalid]="(employmentStatusCtrl?.touched || submitted) && employmentStatusCtrl?.invalid"
-       [class.job-form__radio-group--valid]="(employmentStatusCtrl?.touched || submitted) && employmentStatusCtrl?.valid">
+       [class.job-form__radio-group--invalid]="(employmentStatusCtrl.touched || submitted) && employmentStatusCtrl.invalid"
+       [class.job-form__radio-group--valid]="(employmentStatusCtrl.touched || submitted) && employmentStatusCtrl.valid">
 
     <p class="job-form__radio-legend">What is your current employment status?</p>
 
@@ -133,7 +133,7 @@
       Student
     </label>
 
-    @if (employmentStatusCtrl?.touched && employmentStatusCtrl?.invalid) {
+    @if (employmentStatusCtrl.touched && employmentStatusCtrl.invalid) {
       <small class="job-form__helper job-form__helper--error" role="alert">
         Please choose an option.
       </small>
@@ -152,7 +152,7 @@
         <option [value]="p">{{ p }}</option>
       }
     </select>
-    @if (positionSelectedCtrl?.touched && positionSelectedCtrl?.invalid) {
+    @if (positionSelectedCtrl.touched && positionSelectedCtrl.invalid) {
       <small class="job-form__helper job-form__helper--error" role="alert">
         Please select a position.
       </small>
@@ -169,10 +169,10 @@
       placeholder="https://www.example.com"
       formControlName="resumeLink"
     />
-    @if (resumeLinkCtrl?.touched && resumeLinkCtrl?.invalid) {
+    @if (resumeLinkCtrl.touched && resumeLinkCtrl.invalid) {
       <small class="job-form__helper job-form__helper--error" role="alert">
-        @if (resumeLinkCtrl?.errors?.['required']) { Resume link is required. }
-        @if (resumeLinkCtrl?.errors?.['pattern']) { Enter a valid URL (starts with http/https). }
+        @if (resumeLinkCtrl.errors?.['required']) { Resume link is required. }
+        @if (resumeLinkCtrl.errors?.['pattern']) { Enter a valid URL (starts with http/https). }
       </small>
     }
   </div>
@@ -238,7 +238,7 @@
   </div>
 
   <!-- Phone number (condicional) -->
-  @if (verifyAccountWithCtrl?.value === 'phone number') {
+  @if (verifyAccountWithCtrl.value === 'phone number') {
     <div class="job-form__control">
       <label class="job-form__label" for="phone-number">Phone number</label>
       <input
@@ -248,13 +248,13 @@
         placeholder="phone-number"
         formControlName="phoneNumber"
       />
-      @if (phoneNumberCtrl?.touched && phoneNumberCtrl?.invalid) {
+      @if (phoneNumberCtrl.touched && phoneNumberCtrl.invalid) {
         <small class="job-form__helper job-form__helper--error" role="alert">
-          @if (phoneNumberCtrl?.errors?.['required']) { This field is required. }
-          @if (phoneNumberCtrl?.errors?.['pattern']) { This field only accepts numbers. }
-          @if (phoneNumberCtrl?.errors?.['minlength']) {
+          @if (phoneNumberCtrl.errors?.['required']) { This field is required. }
+          @if (phoneNumberCtrl.errors?.['pattern']) { This field only accepts numbers. }
+          @if (phoneNumberCtrl.errors?.['minlength']) {
             The required length for this field is
-            <strong>{{ phoneNumberCtrl?.errors?.['minlength']?.requiredLength }}</strong>
+            <strong>{{ phoneNumberCtrl.errors?.['minlength']?.requiredLength }}</strong>
           }
         </small>
       }

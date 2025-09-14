@@ -1,0 +1,11 @@
+<div class="sr" [style.--sr-size.px]="size()" (mouseleave)="handleMouseLeave()">
+  @for (star of stars; track star; let i = $index) {
+    <span
+      class="star"
+      [class.hovered]="hoveredIndex() !== -1 && hoveredIndex() >= i"
+      [class.filled]="i < rating()"
+      (click)="rate(i + 1)"
+      (mouseover)="handleMouseOver(i)"
+    >&#9733;</span>
+  }
+</div>

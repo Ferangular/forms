@@ -1,0 +1,15 @@
+<h2>Star Rating Component</h2>
+<hr>
+
+<!-- fila separada para que el botón quede debajo -->
+<div class="demo-row">
+  <cs-star-rating [starCount]="starCount()"></cs-star-rating>
+</div>
+
+<button type="button" class="btn" (click)="addStar()">adding star</button>
+
+<h3>Form Control</h3>
+<hr>
+
+<!-- este ejemplo usa un form control independiente -->
+<cs-star-rating [starCount]="5" [size]="24" [formControl]="ratingCtrl"></cs-star-rating>
