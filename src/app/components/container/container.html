@@ -1,0 +1,10 @@
+<h2>Container Works</h2>
+<ng-content></ng-content>
+
+<!-- En la parte de “tokens root” mostraremos marcas de coches aquí -->
+<ul>
+  @for (brand of carBrands; track brand) {
+    <li>{{ brand }}</li>
+  }
+</ul>
+
