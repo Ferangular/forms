@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { map, Observable, of, switchMap, timer } from 'rxjs';
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
+import {ERROR_MESSAGES, VALIDATION_ERROR_MESSAGES} from '../../core/validation-error-messages.token';
 
 /* ---------- Tipos ---------- */
 // ✅ Tipado estricto de los controles
@@ -89,7 +90,10 @@ function checkEmailAsync(): AsyncValidatorFn {
     KeyValuePipe
   ],
   templateUrl: './reactive-form.html',
-  styleUrl: './reactive-form.scss'
+  styleUrl: './reactive-form.scss',
+  providers:[
+    { provide: VALIDATION_ERROR_MESSAGES, useValue: {...ERROR_MESSAGES, required: 'CUSTOM: this field is required' } }
+  ]
 })
 export class ReactiveForm implements OnInit {
   private fb = inject(FormBuilder);

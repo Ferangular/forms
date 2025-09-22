@@ -27,14 +27,17 @@
           minlength="2"
         />
         @if (first.touched && first.invalid) {
-          <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (first.errors?.['required']) {
-              First name is required.
-            }
-            @if (first.errors?.['minlength']) {
-              At least 2 characters.
-            }
-          </small>
+<!--          <small class="job-form__helper job-form__helper&#45;&#45;error" role="alert">-->
+<!--            @if (first.errors?.['required']) {-->
+<!--              First name is required.-->
+<!--            }-->
+<!--            @if (first.errors?.['minlength']) {-->
+<!--              At least 2 characters.-->
+<!--            }-->
+<!--          </small>-->
+
+          <cs-input-error [errors]="first.errors"/>
+
         }
       </div>
 
@@ -49,20 +52,21 @@
           placeholder="Last Name"
           [(ngModel)]="applicantForm.name.last"
           #last="ngModel"
-          bannedWord="Doe"
+          [bannedWord]="['Doe', 'uno']"
         />
         @if (last.touched && last.invalid) {
           <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (last.errors?.['required']) {
-              Last name is required.
-            }
-            @if (last.errors?.['minlength']) {
-              At least 2 characters.
-            }
-            @if (last.hasError('bannedWordValidator')) {
-              @let banneError = last.getError('bannedWordValidator');
-              Nombre prohibido <strong>{{ banneError.word }}</strong>
-            }
+<!--            @if (last.errors?.['required']) {-->
+<!--              Last name is required.-->
+<!--            }-->
+<!--            @if (last.errors?.['minlength']) {-->
+<!--              At least 2 characters.-->
+<!--            }-->
+<!--            @if (last.hasError('bannedWordValidator')) {-->
+<!--              @let banneError = last.getError('bannedWordValidator');-->
+<!--              Nombre prohibido <strong>{{ banneError.word }}</strong>-->
+<!--            }-->
+            <cs-input-error [errors]="last.errors"/>
           </small>
         }
       </div>

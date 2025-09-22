@@ -1,0 +1,5 @@
+@if (errors(); as errs) {
+  @for (err of errs | keyvalue; track err.key) {
+    <div class="text-error">{{ getMessage(err) }}</div>
+  }
+}
