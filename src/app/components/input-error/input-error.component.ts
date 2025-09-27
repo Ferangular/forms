@@ -2,11 +2,12 @@ import {Component, inject, input} from '@angular/core';
 import {ValidationErrors} from '@angular/forms';
 import {KeyValuePipe} from '@angular/common';
 import {VALIDATION_ERROR_MESSAGES, ValidationMessageMap} from '../../core/validation-error-messages.token';
+import {ErrorsMessagesPipePipe} from '../../core/pipes/errors-messages.pipe-pipe';
 
 @Component({
   selector: 'cs-input-error',
   imports: [
-    KeyValuePipe
+    KeyValuePipe, ErrorsMessagesPipePipe
   ],
   templateUrl: './input-error.component.html',
   styleUrl: './input-error.component.scss'
@@ -14,9 +15,14 @@ import {VALIDATION_ERROR_MESSAGES, ValidationMessageMap} from '../../core/valida
 export class InputErrorComponent {
   errors = input<ValidationErrors | null>(null);
   errorMessages = inject(VALIDATION_ERROR_MESSAGES);
-constructor() {
-  console.log(this.errors())
-}
+
+  except = input<string[]>([]); //
+
+
+  constructor() {
+    console.log(this.errors())
+  }
+
   // Devuelve el texto, sea que la entrada sea string o función, o no exista
   getMessage = (entry: { key: string; value: unknown }) => {
     const m = (this.errorMessages as ValidationMessageMap)[entry.key];
@@ -28,5 +34,14 @@ constructor() {
   name = {
     first: 'fer',
     last: true
+  }
+
+  filteredErrors(): ValidationErrors | null {
+    const e = this.errors();
+    if (!e) return null;
+    const ex = this.except() ?? [];
+    const copy: any = { ...e };
+    for (const k of ex) delete copy[k];
+    return Object.keys(copy).length ? copy : null;
   }
 }

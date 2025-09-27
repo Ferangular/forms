@@ -1,5 +1,12 @@
+<!--@if (errors(); as errs) {-->
+<!--  @for (err of errs | keyvalue; track err.key) {-->
+<!--    <div class="text-error">{{ getMessage(err) | errorsMessages: err.value }}</div>-->
+<!--  }-->
+<!--}-->
 @if (errors(); as errs) {
   @for (err of errs | keyvalue; track err.key) {
-    <div class="text-error">{{ getMessage(err) }}</div>
+    <div class="text-error">
+      {{ err.key | errorsMessages: err.value }}
+    </div>
   }
 }

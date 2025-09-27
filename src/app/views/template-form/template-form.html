@@ -36,7 +36,10 @@
 <!--            }-->
 <!--          </small>-->
 
-          <cs-input-error [errors]="first.errors"/>
+          <<cs-input-error
+            *csShowWhenInvalid="first; form: form; let errs"
+            [errors]="errs">
+          </cs-input-error>
 
         }
       </div>
@@ -66,7 +69,10 @@
 <!--              @let banneError = last.getError('bannedWordValidator');-->
 <!--              Nombre prohibido <strong>{{ banneError.word }}</strong>-->
 <!--            }-->
-            <cs-input-error [errors]="last.errors"/>
+            <cs-input-error
+              *csShowWhenInvalid="last; form: form; let errs"
+              [errors]="errs">
+            </cs-input-error>
           </small>
         }
       </div>
@@ -76,73 +82,68 @@
 
   <!-- ========== EMAIL ==========
        Grupo: email + confirmEmail directive -->
-  <div class="job-form__group">
-    <div class="job-form__group-box" ngModelGroup="email" confirmEmail>
+  <!-- ========== EMAIL (grupo email + confirmEmail) ========== -->
+  <div class="job-form__group-box" ngModelGroup="email" confirmEmail #emailGroup="ngModelGroup">
 
-      <!-- Email -->
-      <div class="job-form__control">
-        <div class="job-form__label-row">
-          <label class="job-form__label" for="email">Email</label>
-
-          <!-- Info (verde) separado del input -->
-          @if (email.pending) {
-            <span class="job-form__status job-form__status--success" role="status">
-              Checking this email...
-            </span>
-          }
-        </div>
-
-        <input
-          class="job-form__input"
-          id="email"
-          name="email"
-          type="email"
-          placeholder="Email"
-          [(ngModel)]="applicantForm.email.email"
-          #email="ngModel"
-          required
-          checkEmail
-          email
-        />
-
-        @if (email.touched && email.invalid) {
-          <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (email.errors?.['required']) {
-              Email is required.
-            }
-            @if (email.errors?.['email']) {
-              Enter a valid email.
-            }
-            @if (email.errors?.['isAnExistingEmail']) {
-              This email is already taken.
-            }
-          </small>
+    <!-- Email -->
+    <div class="job-form__control">
+      <div class="job-form__label-row">
+        <label class="job-form__label" for="email">Email</label>
+        @if (email.pending) {
+          <span class="job-form__status job-form__status--success" role="status">
+          Checking this email...
+        </span>
         }
       </div>
 
-      <!-- Confirm Email -->
-      <div class="job-form__control">
-        <label class="job-form__label" for="confirm-email">Confirm Email</label>
-        <input
-          class="job-form__input"
-          id="confirm-email"
-          name="confirm-email"
-          type="email"
-          placeholder="confirm-email"
-          [(ngModel)]="applicantForm.email.confirmEmail"
-          #confirmEmailControl="ngModel"
-        />
-        @if (confirmEmailControl.touched && confirmEmailControl.invalid) {
-          <small class="job-form__helper job-form__helper--error" role="alert">
-            @if (confirmEmailControl.errors?.['noMatch']) {
-              Email doesn´t match.
-            }
-          </small>
-        }
-      </div>
+      <input
+        class="job-form__input"
+        id="email"
+        name="email"
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="applicantForm.email.email"
+        #email="ngModel"
+        required
+        checkEmail
+        email
+      />
 
+      <cs-input-error
+        *csShowWhenInvalid="email; form: form; let errs"
+        [errors]="errs">
+      </cs-input-error>
     </div>
+
+    <!-- Confirm Email -->
+    <div class="job-form__control">
+      <label class="job-form__label" for="confirm-email">Confirm Email</label>
+      <input
+        class="job-form__input"
+        id="confirm-email"
+        name="confirm-email"
+        type="email"
+        placeholder="confirm-email"
+        [(ngModel)]="applicantForm.email.confirmEmail"
+        #confirmEmailControl="ngModel"
+      />
+
+      <!-- errores del propio control -->
+      <cs-input-error
+        *csShowWhenInvalid="confirmEmailControl; form: form; let errs"
+        [errors]="errs">
+      </cs-input-error>
+
+      <!-- error de MISMATCH del grupo -->
+      <cs-input-error
+        *csShowWhenInvalid="emailGroup; form: form; errorKey: 'noMatch'; let errs"
+        [errors]="errs">
+      </cs-input-error>
+    </div>
+
   </div>
+
+
 
   <!-- ========== EMPLOYMENT STATUS (RADIOS) ========== -->
   <div class="job-form__radio-group"
@@ -196,11 +197,15 @@
       Student
     </label>
 
-    @if (employmentStatus.touched && employmentStatus.invalid) {
-      <small class="job-form__helper job-form__helper--error" role="alert">
-        Please choose an option.
-      </small>
-    }
+<!--    @if ((employmentStatus.touched || form.submitted) && employmentStatus.invalid) {-->
+<!--      <cs-input-error [errors]="employmentStatus.errors" />-->
+<!--    }-->
+
+    <cs-input-error
+      *csShowWhenInvalid="employmentStatus; form: form; let errs"
+      [errors]="errs">
+    </cs-input-error>
+
   </div>
 
   <!-- ========== POSITION (SELECT) ========== -->
@@ -219,10 +224,13 @@
         <option [value]="p">{{ p }}</option>
       }
     </select>
+<!--    @if (positionSelected.touched && positionSelected.invalid) {-->
+<!--      <small class="job-form__helper job-form__helper&#45;&#45;error" role="alert">-->
+<!--        Please select a position.-->
+<!--      </small>-->
+<!--    }-->
     @if (positionSelected.touched && positionSelected.invalid) {
-      <small class="job-form__helper job-form__helper--error" role="alert">
-        Please select a position.
-      </small>
+      <cs-input-error [errors]="positionSelected.errors" />
     }
   </div>
 
@@ -240,15 +248,18 @@
       required
       pattern="https?://.+"
     />
+<!--    @if (resumeLink.touched && resumeLink.invalid) {-->
+<!--      <small class="job-form__helper job-form__helper&#45;&#45;error" role="alert">-->
+<!--        @if (resumeLink.errors?.['required']) {-->
+<!--          Resume link is required.-->
+<!--        }-->
+<!--        @if (resumeLink.errors?.['pattern']) {-->
+<!--          Enter a valid URL (starts with http/https).-->
+<!--        }-->
+<!--      </small>-->
+<!--    }-->
     @if (resumeLink.touched && resumeLink.invalid) {
-      <small class="job-form__helper job-form__helper--error" role="alert">
-        @if (resumeLink.errors?.['required']) {
-          Resume link is required.
-        }
-        @if (resumeLink.errors?.['pattern']) {
-          Enter a valid URL (starts with http/https).
-        }
-      </small>
+      <cs-input-error [errors]="resumeLink.errors" />
     }
   </div>
 
@@ -295,22 +306,25 @@
         placeholder="phone-number"
         [(ngModel)]="applicantForm.phoneNumber"
         minlength="4"
-        pattern="\d"
+        pattern="^\d*$"
         #phoneNumber="ngModel"
       />
+<!--      @if (phoneNumber.touched && phoneNumber.invalid) {-->
+<!--        <small class="job-form__helper job-form__helper&#45;&#45;error" role="alert">-->
+<!--          @if (phoneNumber.errors?.['required']) {-->
+<!--            This field is required.-->
+<!--          }-->
+<!--          @if (phoneNumber.errors?.['pattern']) {-->
+<!--            This field only accepts numbers.-->
+<!--          }-->
+<!--          @if (phoneNumber.hasError('minlength')) {-->
+<!--            @let minlength = phoneNumber.getError('minlength');-->
+<!--            The required length for this field is <strong>{{ minlength }}</strong>-->
+<!--          }-->
+<!--        </small>-->
+<!--      }-->
       @if (phoneNumber.touched && phoneNumber.invalid) {
-        <small class="job-form__helper job-form__helper--error" role="alert">
-          @if (phoneNumber.errors?.['required']) {
-            This field is required.
-          }
-          @if (phoneNumber.errors?.['pattern']) {
-            This field only accepts numbers.
-          }
-          @if (phoneNumber.hasError('minlength')) {
-            @let minlength = phoneNumber.getError('minlength');
-            The required length for this field is <strong>{{ minlength }}</strong>
-          }
-        </small>
+        <cs-input-error [errors]="phoneNumber.errors"/>
       }
     </div>
   }

@@ -7,12 +7,13 @@ import {ConfirmEmailValidator} from './directives/confirm-email-validator.direct
 import {CheckEmailAsyncValidator} from './directives/check-email-async-validator.directive';
 import {InputErrorComponent} from '../../components/input-error/input-error.component';
 import {ERROR_MESSAGES, VALIDATION_ERROR_MESSAGES} from '../../core/validation-error-messages.token';
+import {ShowWhenInvalidDirective} from '../../core/directives/show-when-invalid.directive';
 
 // import {TemplateFormDirective} from '../../directives/template-form.directive';
 
 @Component({
   selector: 'cs-template-form',
-  imports: [FormsModule, BannedWordDirective, ConfirmEmailValidator, CheckEmailAsyncValidator, InputErrorComponent],
+  imports: [FormsModule, BannedWordDirective, ConfirmEmailValidator, CheckEmailAsyncValidator, InputErrorComponent, ShowWhenInvalidDirective],
   templateUrl: './template-form.html',
   styleUrl: './template-form.scss',
   providers:[
